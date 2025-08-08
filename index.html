@@ -1,83 +1,263 @@
-<!DOCTYPE html><html lang="pt">
+<!DOCTYPE html><html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MozVendas - Plataforma</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: #f4f4f4; }
-    .login-container, .dashboard { display: none; padding: 20px; }
-    .login-container.active, .dashboard.active { display: block; }.login-box { max-width: 400px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-.login-box h2 { margin-bottom: 15px; }
-.login-box input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
-.login-box button { width: 100%; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cakto - Dashboard (mock)</title>  <!-- Bootstrap icons -->  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">  <style>
+    :root{
+      --bg:#0f1724; /* dark blue */
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#06b6d4;
+      --accent-2:#7c3aed;
+      --glass: rgba(255,255,255,0.04);
+    }
 
-.topbar { background: #007bff; color: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-.menu-btn { font-size: 24px; cursor: pointer; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef6;background:linear-gradient(180deg,#071028 0%, #071a2b 100%)}
 
-.sidebar { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background: #222; color: #fff; padding-top: 60px; transition: 0.3s ease; }
-.sidebar.active { left: 0; }
-.sidebar a { display: block; padding: 15px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid #333; }
-.sidebar a:hover { background: #333; }
+    /* Layout */
+    .app{
+      display:flex;
+      min-height:100vh;
+    }
 
-.main-content { margin-top: 20px; }
-.card { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    /* Sidebar */
+    .sidebar{
+      width:260px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-right:1px solid rgba(255,255,255,0.03);
+      padding:18px;
+      position:relative;
+      transition:width .25s ease;
+    }
+    .sidebar.collapsed{width:76px}
 
-  </style>
-</head>
-<body>  <!-- Login -->  <div class="login-container active" id="loginContainer">
-    <div class="login-box">
-      <h2>Login MozVendas</h2>
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Senha">
-      <button onclick="login()">Entrar</button>
+    .brand{
+      display:flex;align-items:center;gap:10px;margin-bottom:18px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:white
+    }
+    .brand h1{font-size:16px;margin:0}
+    .brand p{font-size:12px;margin:0;color:var(--muted)}
+
+    .nav{margin-top:18px}
+    .nav a{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;color:#cfe8f7;text-decoration:none;margin-bottom:6px}
+    .nav a .bi{font-size:18px}
+    .nav a.active{background:rgba(255,255,255,0.03)}
+
+    .sidebar .toggle{
+      position:absolute;right:-18px;top:18px;background:var(--glass);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)
+    }
+
+    /* Main content */
+    .main{
+      flex:1;padding:20px 28px;overflow:auto;
+    }
+
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;
+    }
+    .search{display:flex;align-items:center;gap:8px;background:var(--glass);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+    .search input{background:transparent;border:0;color:#e6eef6;outline:none}
+
+    .chips{display:flex;gap:8px;align-items:center}
+    .chip{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+    .chip.active{box-shadow:0 6px 18px rgba(124,58,237,0.14);border-color:rgba(124,58,237,0.6)}
+
+    /* Dashboard cards */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .card h3{margin:0 0 8px 0;font-size:13px;color:var(--muted)}
+    .card .value{font-size:20px;font-weight:700}
+
+    /* Products and table */
+    .panel{display:flex;gap:16px}
+    .products{flex:1}
+    .table-wrap{flex:1.1}
+
+    .product-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .product{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center}
+    .product img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+    .product .meta{flex:1}
+    .product .meta h4{margin:0 0 6px 0}
+    .product .meta p{margin:0;color:var(--muted);font-size:13px}
+
+    table{width:100%;border-collapse:collapse;color:#dbeafe}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03)}
+    th{color:var(--muted);font-size:13px}
+
+    /* Responsivo */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(1,1fr)}
+      .product-list{grid-template-columns:repeat(1,1fr)}
+      .sidebar{position:fixed;z-index:40;left:0;top:0;bottom:0;transform:translateX(0)}
+    }
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .right{margin-left:auto}
+
+  </style></head>
+<body>  <div class="app"><aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo">Ck</div>
+    <div>
+      <h1>Cakto</h1>
+      <p class="muted">Painel do vendedor</p>
     </div>
-  </div>  <!-- Dashboard -->  <div class="dashboard" id="dashboard">
-    <div class="topbar">
-      <span class="menu-btn" onclick="toggleMenu()">☰</span>
-      <span>MozVendas</span>
-    </div><div class="sidebar" id="sidebar">
-  <a href="#">📦 Meus Produtos</a>
-  <a href="#">💰 Minhas Vendas</a>
-  <a href="#">💳 Checkout</a>
-  <a href="#">🗃️ Relatórios</a>
-</div>
+  </div>
 
-<div class="main-content">
-  <div class="card">
-    <h3>Total de Vendas</h3>
-    <p>0 MZN</p>
+  <div class="nav">
+    <a href="#" class="active"><i class="bi bi-grid-1x2"></i><span class="nav-text">Dashboard</span></a>
+    <a href="#"><i class="bi bi-cart3"></i><span class="nav-text">Produtos</span></a>
+    <a href="#"><i class="bi bi-currency-dollar"></i><span class="nav-text">Vendas</span></a>
+    <a href="#"><i class="bi bi-credit-card-2-back"></i><span class="nav-text">Checkout</span></a>
+    <a href="#"><i class="bi bi-gear"></i><span class="nav-text">Configurações</span></a>
   </div>
-  <div class="card">
-    <h3>Produtos em Destaque</h3>
-    <p>Nenhum ainda</p>
+
+  <div class="toggle" id="toggleBtn" title="Expandir/Reduzir">
+    <i class="bi bi-chevron-left" id="toggleIcon"></i>
   </div>
-  <div class="card">
-    <h3>Métodos de Pagamento</h3>
-    <ul>
-      <li>M-Pesa</li>
-      <li>E-Mola</li>
-      <li>Banco</li>
-    </ul>
+
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="search">
+        <i class="bi bi-search"></i>
+        <input id="search" placeholder="Pesquisar produtos, vendas..." />
+      </div>
+
+      <div class="chips" id="periodChips">
+        <div class="chip" data-val="today">Hoje</div>
+        <div class="chip" data-val="yesterday">Ontem</div>
+        <div class="chip" data-val="7">Últimos 7 dias</div>
+        <div class="chip" data-val="30">Últimos 30 dias</div>
+        <div class="chip active" data-val="always">Sempre</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="muted">Saldo disponível</div>
+      <div style="background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 12px;border-radius:8px;color:white;font-weight:700">$ 1.234,56</div>
+    </div>
   </div>
-</div>
+
+  <section class="grid">
+    <div class="card">
+      <h3>Vendas (período)</h3>
+      <div class="value" id="salesCount">1.234</div>
+      <div class="muted">Comparado aos últimos 7 dias</div>
+    </div>
+
+    <div class="card">
+      <h3>Receita líquida</h3>
+      <div class="value">$ 12.345,00</div>
+      <div class="muted">Depois de taxas</div>
+    </div>
+
+    <div class="card">
+      <h3>Produtos ativos</h3>
+      <div class="value">12</div>
+      <div class="muted">Produtos publicados</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="products card">
+      <h3>Produtos</h3>
+      <div class="product-list" id="productList">
+        <!-- itens gerados por JS -->
+      </div>
+    </div>
+
+    <div class="table-wrap card">
+      <h3>Últimas vendas</h3>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Produto</th><th>Valor</th><th>Pagamento</th><th>Data</th></tr>
+        </thead>
+        <tbody id="salesTable">
+          <!-- gerado por JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
 
   </div>  <script>
-    function toggleMenu() {
-      document.getElementById("sidebar").classList.toggle("active");
+    // Mock data
+    const products = [
+      {id:1,name:'Curso de Fotografia',price:'$29',img:'https://picsum.photos/seed/p1/200/200'},
+      {id:2,name:'E-book: Bolos no Pote',price:'$9',img:'https://picsum.photos/seed/p2/200/200'},
+      {id:3,name:'Template Landing',price:'$19',img:'https://picsum.photos/seed/p3/200/200'},
+      {id:4,name:'Mini-curso de Excel',price:'$15',img:'https://picsum.photos/seed/p4/200/200'}
+    ];
+
+    const sales = [
+      {id:'S001',product:'Curso de Fotografia',value:'$29',payment:'M-Pesa',date:'2025-08-07'},
+      {id:'S002',product:'E-book: Bolos no Pote',value:'$9',payment:'Banco',date:'2025-08-06'},
+      {id:'S003',product:'Template Landing',value:'$19',payment:'E-Mola',date:'2025-08-05'},
+      {id:'S004',product:'Mini-curso de Excel',value:'$15',payment:'M-Pesa',date:'2025-08-03'}
+    ];
+
+    function renderProducts(){
+      const el = document.getElementById('productList');
+      el.innerHTML = '';
+      products.forEach(p=>{
+        const div = document.createElement('div');
+        div.className='product';
+        div.innerHTML = `\n          <img src="${p.img}" alt="${p.name}" />\n          <div class="meta">\n            <h4>${p.name}</h4>\n            <p class="muted">${p.price} • 123 vendas</p>\n          </div>\n          <div class="right">\n            <button class="chip" onclick='alert("Editar: ${p.name}")'>Editar</button>\n          </div>`;
+        el.appendChild(div);
+      })
     }
 
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      // Simulação de login (sem Firebase por enquanto)
-      if (email === "teste@moz.com" && password === "123456") {
-        document.getElementById("loginContainer").classList.remove("active");
-        document.getElementById("dashboard").classList.add("active");
-      } else {
-        alert("Credenciais inválidas. Use: teste@moz.com / 123456");
-      }
+    function renderSales(){
+      const t = document.getElementById('salesTable');
+      t.innerHTML='';
+      sales.forEach(s=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.id}</td><td>${s.product}</td><td>${s.value}</td><td>${s.payment}</td><td>${s.date}</td>`;
+        t.appendChild(tr);
+      })
     }
+
+    // Sidebar toggle
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const toggleIcon = document.getElementById('toggleIcon');
+    toggleBtn.addEventListener('click', ()=>{
+      sidebar.classList.toggle('collapsed');
+      if(sidebar.classList.contains('collapsed')) toggleIcon.className='bi bi-chevron-right';
+      else toggleIcon.className='bi bi-chevron-left';
+    })
+
+    // Chips filter
+    document.getElementById('periodChips').addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      // aqui você pode filtrar sales/products conforme o período
+      document.getElementById('salesCount').innerText = Math.floor(Math.random()*2000);
+    })
+
+    // Search
+    document.getElementById('search').addEventListener('input', (e)=>{
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('.product').forEach(el=>{
+        const name = el.querySelector('h4').innerText.toLowerCase();
+        el.style.display = name.includes(q)?'flex':'none';
+      })
+    })
+
+    // Inicializa
+    renderProducts();
+    renderSales();
+
   </script></body>
 </html>
