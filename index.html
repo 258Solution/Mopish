@@ -1,292 +1,367 @@
-<!doctype html>
-
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MozVendas — Dashboard (mock)</title>
-  <style>
-    :root{--accent:#6C5CE7;--bg:#0f1724;--card:#0b1320;--muted:#98a0b3}
-    *{box-sizing:border-box;font-family:Inter,system-ui,Arial}
-    body{margin:0;background:linear-gradient(180deg,#071029 0%, #071827 100%);color:#e6eef8}
-    .container{max-width:1100px;margin:18px auto;padding:12px}
-    header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#00b894);display:flex;align-items:center;justify-content:center;font-weight:700}
-    h1{font-size:18px;margin:0}
-    .top-row{display:flex;gap:12px;flex-wrap:wrap}
-    .card{background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.7)}
-    .carousel{display:flex;gap:10px;overflow-x:auto;padding:10px 4px}
-    .product-pill{min-width:120px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer;flex:0 0 auto;border:2px solid transparent}
-    .product-pill.active{border-color:var(--accent);box-shadow:0 6px 20px rgba(108,92,231,0.15)}
-    .stats{display:flex;gap:12px;flex:1}
-    .stat{flex:1;padding:10px;border-radius:10px}
-    .filters{display:flex;gap:8px;align-items:center}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:8px;cursor:pointer}
-    .btn.primary{background:var(--accent);color:#071027;border:none}
-    .small{font-size:12px;color:var(--muted)}
-    main{display:grid;grid-template-columns:1fr 320px;gap:12px;margin-top:12px}
-    .left{display:flex;flex-direction:column;gap:12px}
-    .sales-list{max-height:420px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
-    .sale-item{display:flex;justify-content:space-between;gap:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02)}
-    .right{position:relative}
-    label{display:block;font-size:13px;margin-bottom:6px}
-    input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    .link{display:block;color:#7bd389;word-break:break-all}
-    .payments{display:flex;gap:8px}
-    .payment{flex:1;padding:8px;border-radius:8px;text-align:center}
-    .add-product{display:flex;flex-direction:column;gap:8px}
-    .footer-note{font-size:12px;color:var(--muted);margin-top:8px}
-    @media (max-width:800px){main{grid-template-columns:1fr} .right{order:2}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corrimento Nunca Mais 😈</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+
+  body {
+    background-color: #111;
+    color: #f5f5f5;
+    line-height: 1.6;
+  }
+
+  header {
+    background-color: #1a1a1a;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #ff0066;
+  }
+
+  header h1 {
+    color: #ff0066;
+    font-size: 2rem;
+    margin-bottom: 5px;
+  }
+
+  header p {
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  h2 {
+    color: #ff3399;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    color: #ff66cc;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+
+  ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  button {
+    background-color: #ff0066;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: #ff3399;
+  }
+
+  .chapter {
+    display: none;
+  }
+
+  .active {
+    display: block;
+  }
+
+  .alert {
+    background-color: #ff0033;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .tip {
+    background-color: #222;
+    border-left: 4px solid #ff0066;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .highlight {
+    color: #ff66cc;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">MZ</div>
-      <div>
-        <h1>MozVendas — Painel</h1>
-        <div class="small">Interface funcional (mock). Clique nos produtos e use os filtros.</div>
-      </div>
-      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-        <button id="btnAddProduct" class="btn primary">+ Adicionar produto</button>
-      </div>
-    </header><section class="top-row">
-  <div class="card" style="flex:1">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div class="small">Produtos</div><div style="font-weight:700">Catálogo</div></div>
-      <div class="filters">
-        <div class="small">Período:</div>
-        <select id="periodSelect" class="btn" style="padding:6px 10px">
-          <option value="today">Hoje</option>
-          <option value="yesterday">Ontem</option>
-          <option value="7days">Últimos 7 dias</option>
-          <option value="30days">Últimos 30 dias</option>
-          <option value="all">Sempre</option>
-        </select>
-      </div>
-    </div>
 
-    <div class="carousel card" id="productCarousel" style="margin-top:12px"></div>
+<header>
+  <h1>Corrimento Nunca Mais 😈</h1>
+  <p>O guia black definitivo: cuide da sua saúde íntima e nunca mais sofra com corrimento!</p>
+</header>
+
+<div class="container">
+
+  <!-- 20 páginas interativas -->
+  
+  <!-- Página 1 -->
+  <div class="chapter active" id="page1">
+    <h2>Página 1 – Introdução Black 😈</h2>
+    <p>Se você está cansada de sofrer com corrimento, coceira e desconforto, este guia é para você. Aqui vamos falar sem rodeios: seu corpo precisa de atenção e ação.</p>
+    <div class="tip">Dica Black: Comece a observar seu corpo hoje. Cada detalhe conta!</div>
   </div>
 
-  <div style="width:340px;display:flex;flex-direction:column;gap:10px">
-    <div class="card stats">
-      <div class="stat">
-        <div class="small">Total vendas</div>
-        <div id="totalSales" style="font-size:20px;font-weight:700">0</div>
-      </div>
-      <div class="stat">
-        <div class="small">Valor total</div>
-        <div id="totalValue" style="font-size:20px;font-weight:700">MT 0,00</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="small">Meios de pagamento</div>
-      <div class="payments" style="margin-top:8px">
-        <div class="payment" id="mpesa">M-Pesa<br><strong id="mpesaCount">0</strong></div>
-        <div class="payment" id="emola">E-Mola<br><strong id="emolaCount">0</strong></div>
-        <div class="payment" id="bank">Banco<br><strong id="bankCount">0</strong></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<main>
-  <div class="left">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><div class="small">Vendas (filtradas)</div><div style="font-weight:700">Lista de vendas</div></div>
-        <div class="small" id="selectedProductName">Todos</div>
-      </div>
-      <div class="sales-list" id="salesList"></div>
-    </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div><div class="small">Adicionar venda</div><div style="font-weight:700">Registrar venda manualmente</div></div>
-        <div class="small">(útil para testes)</div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 120px;gap:8px">
-        <select id="saleProduct" style="grid-column:1/span1"></select>
-        <input id="saleQty" type="number" min="1" value="1" placeholder="Qtd" />
-        <input id="saleValue" type="number" min="0" value="100" placeholder="Valor" style="grid-column:1/span2" />
-        <select id="saleMethod"><option value="mpesa">M-Pesa</option><option value="emola">E-Mola</option><option value="bank">Banco</option></select>
-        <button id="btnAddSale" class="btn primary" style="grid-column:1/span2">Registrar venda</button>
-      </div>
-    </div>
-
+  <!-- Página 2 -->
+  <div class="chapter" id="page2">
+    <h2>Página 2 – Por que entender o corrimento é vital</h2>
+    <p>O corrimento é um mecanismo natural de defesa, mas quando muda de cor, cheiro ou consistência, pode indicar algo grave. Ignorar sinais pode causar complicações sérias.</p>
+    <div class="alert">Alerta: Alterações persistentes exigem atenção imediata!</div>
   </div>
 
-  <aside class="right card">
-    <div style="font-weight:700">Gerenciar produtos</div>
-    <div class="add-product" style="margin-top:8px">
-      <label>Nome do produto</label>
-      <input id="newName" placeholder="Ex: Curso X" />
-      <label>Preço (MT)</label>
-      <input id="newPrice" type="number" value="150" />
-      <label>Link de divulgação</label>
-      <input id="newLink" placeholder="https://..." />
-      <button id="btnSaveProduct" class="btn primary">Salvar produto</button>
-    </div>
+  <!-- Página 3 -->
+  <div class="chapter" id="page3">
+    <h2>Página 3 – Tipos de corrimento</h2>
+    <ul>
+      <li><strong>Fisiológico:</strong> transparente, levemente esbranquiçado, sem cheiro forte, variação normal durante o ciclo menstrual.</li>
+      <li><strong>Patológico:</strong> alteração de cor, cheiro intenso, coceira, ardência – exige atenção médica.</li>
+    </ul>
+    <div class="tip">Dica Black: Identifique seu padrão normal para perceber qualquer mudança.</div>
+  </div>
 
-    <div class="footer-note">Os dados aqui são salvos no seu navegador (localStorage). Depois podemos trocar para Firebase Firestore — o HTML já tem pontos para integrar.</div>
-  </aside>
-</main>
+  <!-- Página 4 -->
+  <div class="chapter" id="page4">
+    <h2>Página 4 – Causas invisíveis do corrimento</h2>
+    <ul>
+      <li>Infecções: candidíase, vaginose bacteriana, DSTs.</li>
+      <li>Alterações hormonais: gravidez, ciclo menstrual, menopausa.</li>
+      <li>Higiene inadequada e produtos agressivos.</li>
+      <li>Roupas apertadas ou sintéticas.</li>
+      <li>Alimentação e hábitos prejudiciais.</li>
+    </ul>
+  </div>
 
-  </div>  <script>
-    // --- Estrutura de dados local (usamos localStorage para persistência local)
-    const STORAGE_KEY = 'mozvendas_data_v1';
+  <!-- Página 5 -->
+  <div class="chapter" id="page5">
+    <h2>Página 5 – Sintomas que não podem ser ignorados</h2>
+    <ul>
+      <li>Cheiro forte ou desagradável</li>
+      <li>Coceira intensa</li>
+      <li>Ardência ao urinar</li>
+      <li>Mudança persistente de cor</li>
+      <li>Sangramento fora do período menstrual</li>
+    </ul>
+    <div class="alert">Alerta: Consulte um ginecologista imediatamente!</div>
+  </div>
 
-    const defaultProducts = [
-      {id: 'p1', name: 'Bolo de Chocolate', price: 150, link: 'https://exemplo.com/p1'},
-      {id: 'p2', name: 'Bolo de Baunilha', price: 140, link: 'https://exemplo.com/p2'},
-      {id: 'p3', name: 'Bolo Red Velvet', price: 230, link: 'https://exemplo.com/p3'}
-    ];
+  <!-- Página 6 -->
+  <div class="chapter" id="page6">
+    <h2>Página 6 – A importância de ir ao hospital</h2>
+    <p>Exames como papanicolau, ultrassom, cultura vaginal ajudam a identificar a causa do corrimento e definir o tratamento correto.</p>
+    <div class="tip">Dica Black: Leve um diário do seu corrimento para o médico – registra cor, cheiro e intensidade.</div>
+  </div>
 
-    function loadState(){
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return {products: defaultProducts, sales: []};
-      try{ return JSON.parse(raw);}catch(e){return {products: defaultProducts, sales: []}};
+  <!-- Página 7 -->
+  <div class="chapter" id="page7">
+    <h2>Página 7 – Tratamentos eficazes</h2>
+    <ul>
+      <li>Antifúngicos orais ou tópicos</li>
+      <li>Antibióticos específicos para vaginose bacteriana</li>
+      <li>Medicamentos conforme recomendação médica</li>
+    </ul>
+    <div class="alert">Alerta: Evite automedicação que pode piorar a situação!</div>
+  </div>
+
+  <!-- Página 8 -->
+  <div class="chapter" id="page8">
+    <h2>Página 8 – Cuidados diários agressivos (Parte 1)</h2>
+    <ul>
+      <li>Lavar a região íntima com sabonete neutro e água morna</li>
+      <li>Evitar duchas internas</li>
+      <li>Trocar roupas íntimas diariamente</li>
+      <li>Usar roupas de algodão, evitar sintéticas e apertadas</li>
+    </ul>
+  </div>
+
+  <!-- Página 9 -->
+  <div class="chapter" id="page9">
+    <h2>Página 9 – Cuidados diários agressivos (Parte 2)</h2>
+    <ul>
+      <li>Trocar absorventes e calcinhas regularmente</li>
+      <li>Hidratação constante</li>
+      <li>Alimentação equilibrada, reduzir açúcar e alimentos ultraprocessados</li>
+      <li>Observação diária de sinais de alteração no corrimento</li>
+    </ul>
+  </div>
+
+  <!-- Página 10 -->
+  <div class="chapter" id="page10">
+    <h2>Página 10 – Rotina de prevenção completa</h2>
+    <p>Crie uma rotina detalhada: observe seu corpo, planeje alimentação, roupas, higiene e hidratação. Transforme isso em hábito diário.</p>
+  </div>
+
+  <!-- Página 11 -->
+  <div class="chapter" id="page11">
+    <h2>Página 11 – Alimentação e saúde íntima</h2>
+    <ul>
+      <li>Probióticos naturais (iogurte natural) ajudam a equilibrar a flora vaginal</li>
+      <li>Reduzir açúcar e alimentos ultraprocessados</li>
+      <li>Hidratação contínua fortalece a saúde geral e íntima</li>
+      <li>Frutas e vegetais frescos ajudam na prevenção de infecções</li>
+    </ul>
+  </div>
+
+  <!-- Página 12 -->
+  <div class="chapter" id="page12">
+    <h2>Página 12 – Exercícios e hábitos saudáveis</h2>
+    <ul>
+      <li>Exercícios pélvicos fortalecem a região íntima</li>
+      <li>Evitar roupas apertadas durante atividades físicas</li>
+      <li>Praticar higiene antes e após exercícios</li>
+    </ul>
+    <div class="tip">Dica Black: Combine exercícios e hábitos diários para máxima proteção.</div>
+  </div>
+
+  <!-- Página 13 -->
+  <div class="chapter" id="page13">
+    <h2>Página 13 – Mitos e verdades sobre corrimento (Parte 1)</h2>
+    <ul>
+      <li>Corrimento sempre é doença – FALSO</li>
+      <li>Produtos naturais sempre ajudam – FALSO, alguns podem irritar</li>
+      <li>Menstruação altera corrimento – VERDADE, mas temporário</li>
+    </ul>
+  </div>
+
+  <!-- Página 14 -->
+  <div class="chapter" id="page14">
+    <h2>Página 14 – Mitos e verdades sobre corrimento (Parte 2)</h2>
+    <ul>
+      <li>Ficar muito tempo sem trocar absorvente aumenta risco de infecção – VERDADE</li>
+      <li>Higiene exagerada com sabonetes fortes pode prejudicar – VERDADE</li>
+      <li>Traumas e relações sem proteção podem gerar corrimento patológico – VERDADE</li>
+    </ul>
+  </div>
+
+  <!-- Página 15 -->
+  <div class="chapter" id="page15">
+    <h2>Página 15 – Checklist diário Black</h2>
+    <ul>
+      <li>Observar cor, cheiro e consistência do corrimento</li>
+      <li>Trocar roupas íntimas e absorventes</li>
+      <li>Higiene completa da região íntima</li>
+      <li>Hidratação e alimentação equilibrada</li>
+    </ul>
+    <div class="tip">Dica Black: Marque cada item diariamente para manter controle total.</div>
+  </div>
+
+  <!-- Página 16 -->
+  <div class="chapter" id="page16">
+    <h2>Página 16 – Sinais de alerta imediato</h2>
+    <ul>
+      <li>Cheiro forte ou fétido</li>
+      <li>Coceira intensa persistente</li>
+      <li>Ardência ao urinar ou dor pélvica</li>
+      <li>Sangramento fora do ciclo</li>
+    </ul>
+    <div class="alert">Alerta Black: Não espere! Procure atendimento médico imediatamente.</div>
+  </div>
+
+  <!-- Página 17 -->
+  <div class="chapter" id="page17">
+    <h2>Página 17 – Produtos recomendados e perigosos</h2>
+    <ul>
+      <li>Sabonetes neutros e hipoalergênicos – recomendados</li>
+      <li>Absorventes de algodão – melhores que sintéticos</li>
+      <li>Evitar duchas internas e produtos perfumados</li>
+      <li>Cremes antifúngicos apenas sob orientação médica</li>
+    </ul>
+  </div>
+
+  <!-- Página 18 -->
+  <div class="chapter" id="page18">
+    <h2>Página 18 – Consultas médicas estratégicas</h2>
+    <ul>
+      <li>Consultas regulares mesmo sem sintomas</li>
+      <li>Levar diário do corrimento para cada visita</li>
+      <li>Seguir recomendações médicas rigorosamente</li>
+    </ul>
+    <div class="tip">Dica Black: A prevenção médica é tão poderosa quanto hábitos diários.</div>
+  </div>
+
+  <!-- Página 19 -->
+  <div class="chapter" id="page19">
+    <h2>Página 19 – Estratégias para nunca mais sofrer</h2>
+    <ul>
+      <li>Rotina disciplinada de cuidados</li>
+      <li>Monitoramento diário do corrimento</li>
+      <li>Higiene, roupas e alimentação corretas</li>
+      <li>Exercícios para região íntima</li>
+    </ul>
+    <div class="tip">Dica Black: Combine todas essas estratégias para máxima proteção!</div>
+  </div>
+
+  <!-- Página 20 -->
+  <div class="chapter" id="page20">
+    <h2>Página 20 – Conclusão e empoderamento final</h2>
+    <p>Seu corpo, suas regras. Tome o controle, aprenda a se proteger e diga:</p>
+    <h3>“Corrimento Nunca Mais!” 😈</h3>
+    <p>Lembre-se: prevenção, atenção diária e acompanhamento médico são suas armas mais poderosas. Você pode viver livre de desconfortos!</p>
+  </div>
+
+  <!-- Botões de navegação -->
+  <div class="nav-buttons">
+    <button id="prevBtn">Anterior</button>
+    <button id="nextBtn">Próximo</button>
+  </div>
+
+</div>
+
+<script>
+  const chapters = document.querySelectorAll('.chapter');
+  let current = 0;
+
+  const showChapter = index => {
+    chapters.forEach((ch, i) => {
+      ch.classList.remove('active');
+      if (i === index) ch.classList.add('active');
+    });
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if(current < chapters.length - 1) {
+      current++;
+      showChapter(current);
     }
-    function saveState(state){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  });
 
-    let state = loadState();
-    let selectedProduct = null; // null = todos
-
-    // --- Utils de data
-    function startOfDay(d){ const x = new Date(d); x.setHours(0,0,0,0); return x; }
-    function endOfDay(d){ const x = new Date(d); x.setHours(23,59,59,999); return x; }
-
-    function periodToRange(period){
-      const now = new Date();
-      let from, to = new Date();
-      if(period === 'today'){ from = startOfDay(now); to = endOfDay(now); }
-      else if(period === 'yesterday'){ const y = new Date(now); y.setDate(y.getDate()-1); from = startOfDay(y); to = endOfDay(y); }
-      else if(period === '7days'){ const f = new Date(now); f.setDate(f.getDate()-6); from = startOfDay(f); to = endOfDay(now); }
-      else if(period === '30days'){ const f = new Date(now); f.setDate(f.getDate()-29); from = startOfDay(f); to = endOfDay(now); }
-      else { from = new Date(0); to = endOfDay(now); }
-      return {from,to};
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if(current > 0) {
+      current--;
+      showChapter(current);
     }
+  });
 
-    // --- Render
-    const productCarousel = document.getElementById('productCarousel');
-    const salesList = document.getElementById('salesList');
-    const totalSalesEl = document.getElementById('totalSales');
-    const totalValueEl = document.getElementById('totalValue');
-    const mpesaCount = document.getElementById('mpesaCount');
-    const emolaCount = document.getElementById('emolaCount');
-    const bankCount = document.getElementById('bankCount');
-    const saleProductSelect = document.getElementById('saleProduct');
-    const selectedProductName = document.getElementById('selectedProductName');
+  showChapter(current);
+</script>
 
-    function renderProducts(){
-      productCarousel.innerHTML = '';
-      state.products.forEach(p =>{
-        const el = document.createElement('div');
-        el.className = 'product-pill' + (selectedProduct === p.id ? ' active' : '');
-        el.innerHTML = `<div style="font-weight:700">${p.name}</div><div class="small">MT ${Number(p.price).toFixed(2)}</div><a class='link small' href='${p.link}' target='_blank'>Link</a>`;
-        el.onclick = ()=>{ selectedProduct = (selectedProduct===p.id? null : p.id); renderAll(); };
-        productCarousel.appendChild(el);
-      });
-      // atualizar select
-      saleProductSelect.innerHTML = state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-    }
-
-    function filterSalesByPeriodAndProduct(period){
-      const {from,to} = periodToRange(period);
-      return state.sales.filter(s => {
-        const t = new Date(s.time);
-        if(t < from || t > to) return false;
-        if(selectedProduct && s.productId !== selectedProduct) return false;
-        return true;
-      }).sort((a,b)=>b.time - a.time);
-    }
-
-    function renderSales(){
-      const period = document.getElementById('periodSelect').value;
-      const filtered = filterSalesByPeriodAndProduct(period);
-      salesList.innerHTML = '';
-      let totalQty = 0, totalVal = 0;
-      const counts = {mpesa:0,emola:0,bank:0};
-      filtered.forEach(s=>{
-        totalQty += s.qty;
-        totalVal += s.value * s.qty;
-        counts[s.method] = (counts[s.method]||0) + 1;
-        const p = state.products.find(x=>x.id===s.productId) || {name:'—'};
-        const el = document.createElement('div'); el.className='sale-item';
-        el.innerHTML = `<div><div style="font-weight:700">${p.name} x${s.qty}</div><div class="small">${new Date(s.time).toLocaleString()}</div></div><div style="text-align:right"><div style="font-weight:700">MT ${(s.value*s.qty).toFixed(2)}</div><div class="small">${s.method}</div></div>`;
-        salesList.appendChild(el);
-      });
-      totalSalesEl.textContent = filtered.length;
-      totalValueEl.textContent = 'MT ' + totalVal.toFixed(2);
-      mpesaCount.textContent = counts.mpesa || 0;
-      emolaCount.textContent = counts.emola || 0;
-      bankCount.textContent = counts.bank || 0;
-      selectedProductName.textContent = selectedProduct ? (state.products.find(p=>p.id===selectedProduct)||{}).name : 'Todos';
-    }
-
-    function renderAll(){ renderProducts(); renderSales(); }
-
-    // --- Add product
-    document.getElementById('btnSaveProduct').onclick = ()=>{
-      const name = document.getElementById('newName').value.trim();
-      const price = Number(document.getElementById('newPrice').value) || 0;
-      const link = document.getElementById('newLink').value.trim() || '#';
-      if(!name){ alert('Informe o nome do produto'); return; }
-      const id = 'p'+Date.now();
-      state.products.push({id,name,price,link}); saveState(state); renderAll();
-      document.getElementById('newName').value=''; document.getElementById('newPrice').value=''; document.getElementById('newLink').value='';
-    }
-
-    // --- Add sale
-    document.getElementById('btnAddSale').onclick = ()=>{
-      const pid = saleProductSelect.value;
-      const qty = Number(document.getElementById('saleQty').value) || 1;
-      const value = Number(document.getElementById('saleValue').value) || (state.products.find(p=>p.id===pid)?.price||0);
-      const method = document.getElementById('saleMethod').value;
-      const sale = {id:'s'+Date.now(),productId:pid,qty,value,method,time: Date.now()};
-      state.sales.push(sale); saveState(state); renderAll();
-    }
-
-    // --- Period filter change
-    document.getElementById('periodSelect').onchange = ()=>{ renderAll(); }
-
-    // --- Quick add product button
-    document.getElementById('btnAddProduct').onclick = ()=>{ window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); document.getElementById('newName').focus(); }
-
-    // --- Initialize sample sales (only once) for demo
-    if(!state._initialized){
-      const now = Date.now();
-      state.sales.push({id:'s_init_1',productId:'p1',qty:2,value:150,method:'mpesa',time: now - (1000*60*60*2)});
-      state.sales.push({id:'s_init_2',productId:'p2',qty:1,value:140,method:'emola',time: now - (1000*60*60*24*1)});
-      state.sales.push({id:'s_init_3',productId:'p3',qty:1,value:230,method:'bank',time: now - (1000*60*60*24*5)});
-      state._initialized = true; saveState(state);
-    }
-
-    renderAll();
-
-    // --- Hooks para integrar com Firebase (exemplo)
-    /*
-      Para integrar com Firebase Firestore substitua os métodos loadState/saveState por chamadas ao Firestore.
-      Exemplo simplificado:
-
-      // inicializar Firebase (adicione seu config)
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-      import { getFirestore, collection, getDocs, addDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      // Para leitura em tempo real (onSnapshot) e atualizar state.products/state.sales quando houver mudanças
-
-      onSnapshot(collection(db,'products'), snapshot=>{ state.products = snapshot.docs.map(d=>({id:d.id,...d.data()})); renderAll(); });
-      onSnapshot(collection(db,'sales'), snapshot=>{ state.sales = snapshot.docs.map(d=>({id:d.id,...d.data()})); renderAll(); });
-
-      // Para gravar:
-      await addDoc(collection(db,'products'), {...});
-      await addDoc(collection(db,'sales'), {...});
-    */
-
-  </script></body>
+</body>
 </html>
