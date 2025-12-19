@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Vendoo</title>
+
+  <!-- Fonte Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <h1>Dashboard</h1>
+
+  <div id="btn-produtos" onclick="window.location.href='produtos.html'">
+    <span class="icon"><i class="bi bi-box-seam"></i></span>
+    <span class="text">Produtos</span>
+    <span class="arrow"><i class="bi bi-chevron-down"></i></span>
+  </div>
+
+  <div id="btn-relatorios" onclick="window.location.href='relatório.html'">
+    <span class="icon"><i class="bi bi-activity"></i></span>
+    <span class="text">Relatório</span>
+    <span class="arrow"><i class="bi bi-chevron-down"></i></span>
+  </div>
+
+  <div id="btn-financeiro" onclick="window.location.href='financeiro.html'">
+    <span class="icon"><i class="bi bi-wallet2"></i></span>
+    <span class="text">Financeiro</span>
+    <span class="arrow"><i class="bi bi-chevron-down"></i></span>
+  </div>
+
+  <div class="card-valor">
+    <div class="icon-box"><i class="bi bi-currency-dollar"></i></div>
+    <div class="info-box">
+      <span class="titulo">Valor Líquido</span>
+      <span class="valor" id="valor">100,00mt</span>
+    </div>
+    <div class="toggle-valor" onclick="toggleValor()"><i id="icone" class="bi bi-eye"></i></div>
+  </div>
+
+  <div class="card-valor1">
+    <div class="icon-box1"><i class="bi bi-cash-coin"></i></div>
+    <div class="info-box1">
+      <span class="titulo1">Vendas Realizadas</span>
+      <span class="valor1" id="valor1">3</span>
+    </div>
+    <div class="toggle-valor1" onclick="toggleValor1()"><i id="icone1" class="bi bi-eye"></i></div>
+  </div>
+
+  <div id="graficoContainer">
+    <div id="diaVisual">Segunda</div>
+    <input type="date" id="dataSelect">
+    <canvas id="vendasHoraDia"></canvas>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <div class="logo-square">V</div>
+      <div class="logo-text">Vendoo</div>
+    </div>
+    <div class="footer-right">
+      <button id="toggle-theme" aria-label="Alternar tema"><i id="theme-icon" class="bi bi-sun"></i></button>
+    </div>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
